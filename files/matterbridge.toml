@@ -1,0 +1,35 @@
+[general]
+MediaDownloadSize=10000000
+
+
+[[gateway]]
+name="Hungry"
+enable=true
+
+[[gateway.inout]]
+account="discord.Discord"
+channel="general"
+
+[[gateway.inout]]
+account="slack.Slack"
+channel="hungry"
+
+
+[discord]
+[discord.Discord]
+Token="{{ pillar['matterbridge_discord_token'] }}"
+Server="1037055400127766588"
+AutoWebhooks=true
+RemoteNickFormat="[{BRIDGE}] <{NICK}> "
+ShowJoinPart=true
+ShowTopicChange=true
+PreserveThreading=true
+
+
+[slack]
+[slack.Slack]
+Token="{{ pillar['matterbridge_slack_token'] }}"
+RemoteNickFormat="{BRIDGE} - @{NICK}"
+ShowJoinPart=true
+ShowTopicChange=true
+PreserveThreading=true
