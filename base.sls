@@ -5,6 +5,12 @@ updates:
   pkg.uptodate:
   - refresh: True
 
+salt:
+  pkgrepo.managed:
+    - file: /etc/apt/sources.list.d/salt.list
+    - key_url: /etc/apt/keyrings/salt-archive-keyring-2023.gpg
+    - aptkey: False
+
 salt-minion:
   pkg.latest:
   - install_recommends: False
@@ -62,8 +68,3 @@ william:
     - comment: Brimborion
     - require:
       - user: william
-
-# only needed for Scaleway
-root:
-  user.present:
-    - password: '*'
