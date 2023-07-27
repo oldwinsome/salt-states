@@ -4,6 +4,13 @@
     - repl: 'Prompt=normal'
     - show_changes: True
 
+salt:
+  pkgrepo.managed:
+    - name: deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/latest jammy main
+    - file: /etc/apt/sources.list.d/salt.list
+    - key_url: https://repo.saltproject.io/salt/py3/ubuntu/22.04/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
+    - aptkey: False
+
 # Are we in OVH?
 {% if salt.network.calc_net(grains['ip4_gw'], 22) == '54.38.32.0/22' %}
 /etc/cloud/cloud.cfg:
@@ -58,10 +65,6 @@
     - require_in:
       - cmd: 'ufw enable'
 
-'ufw enable':
-  cmd.run:
-    - unless: "ufw status | grep '^Status: active$'"
-
 'ufw allow in on tailscale0':
   cmd.run:
     - unless: ufw show added | grep '^ufw allow in on tailscale0$'
@@ -69,3 +72,7 @@
       - cmd: 'ufw enable'
 {%   endif %}
 {% endif %}
+
+'ufw enable':
+  cmd.run:
+    - unless: "ufw status | grep '^Status: active$'"

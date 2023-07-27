@@ -1,15 +1,15 @@
 /usr/local/bin/matterbridge:
   # The Salt Stack HTTP client, unhelpfully, doesn't follow HTTP redirects, so I can't download directly from file.managed.
   cmd.run:
-    - name: &download 'curl -LsSo /usr/local/bin/matterbridge https://github.com/42wim/matterbridge/releases/download/v1.25.2/matterbridge-1.25.2-linux-64bit'
-    - unless: '[ "$(matterbridge --version 2>/dev/null | cut -d" " -f2)" = 1.25.2 ]'
+    - name: &download 'systemctl stop matterbridge >/dev/null 2>&1; curl -LsSo /usr/local/bin/matterbridge https://github.com/42wim/matterbridge/releases/download/v{{ pillar['matterbridge_version'] }}/matterbridge-{{ pillar['matterbridge_version'] }}-linux-64bit'
+    - unless: '[ "$(matterbridge --version 2>/dev/null | cut -d" " -f2)" = {{ pillar['matterbridge_version'] }} ]'
   file.managed:
     - user: matterbridge
     - group: matterbridge
     - mode: 0755
     - create: False
     - replace: False
-    - onchanges:
+    - watch:
       - cmd: *download
     - require:
       - user: matterbridge
@@ -55,5 +55,6 @@ matterbridge:
     - system: True
   service.running:
     - enable: True
-    - onchanges:
+    - watch:
+      - cmd: *download
       - module: /etc/systemd/system/matterbridge.service
