@@ -1,5 +1,5 @@
 [general]
-MediaDownloadSize=10000000
+MediaDownloadSize=100000000
 
 
 [[gateway]]
