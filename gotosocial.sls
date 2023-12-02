@@ -123,8 +123,3 @@ ufw allow in https:
 
 ufw reload:
   cmd.run
-
-sqlite3 /srv/gotosocial/sqlite.db '.backup /srv/gotosocial/backup.db':
-  cron.present:
-    - user: gotosocial
-    - special: '@daily'

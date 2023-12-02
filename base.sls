@@ -35,10 +35,10 @@ ssh:
 william:
   user.present:
     - groups:
+      - adm
       - sudo
       - users
       {% if grains['os'] == 'Raspbian' %}
-      - adm
       - dialout
       - cdrom
       - audio
@@ -56,7 +56,7 @@ william:
     - shell: /bin/bash
     - fullname: William Oldwin
   ssh_auth.present:
-    - name: AAAAC3NzaC1lZDI1NTE5AAAAIPKOgbEQCKZtXBp+8wXIHzvkn5uG8utkwFwmbGp65yBb
+    - name: AAAAC3NzaC1lZDI1NTE5AAAAILeJufanmrqfSwoyBFgBHWlYghUboutYOb9NcPlURbDe
     - user: william
     - enc: ed25519
     - comment: Brimborion

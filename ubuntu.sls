@@ -65,6 +65,12 @@ salt:
     - require_in:
       - cmd: 'ufw enable'
 
+'ufw allow from 2a01:ac:1001:100::/56 to any port 22':
+  cmd.run:
+    - unless: ufw show added | grep '^ufw allow from 2a01:ac:1001:100::/56 to any port 22$'
+    - require_in:
+      - cmd: 'ufw enable'
+
 'ufw allow in on tailscale0':
   cmd.run:
     - unless: ufw show added | grep '^ufw allow in on tailscale0$'
